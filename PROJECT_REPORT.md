@@ -1,13 +1,15 @@
 # ACADEMIC PROJECT REPORT
 ## Project-Based Learning (PBL) in Advanced Java Programming
+### Department of Data Engineering
 
 ---
 
 # HOSPITAL APPOINTMENT AND PATIENT QUEUE MANAGEMENT SYSTEM
 ### *A Multi-Threaded, Priority-Driven Clinical Desktop Application*
 
+**Department:** Department of Data Engineering  
 **Course:** Advanced Java Programming  
-**Domain:** Healthcare Systems & Desktop Application Development  
+**Domain:** Healthcare Systems & Concurrent Data Engineering  
 **Technology Stack:** Java SE, Java Swing (GUI), Multi-threading (Producer–Consumer), Java Collections Framework  
 **Operating Environment:** Cross-platform (Windows, Linux, macOS)  
 

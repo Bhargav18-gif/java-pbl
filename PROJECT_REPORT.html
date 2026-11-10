@@ -2,197 +2,343 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Hospital Appointment & Patient Queue Management System - Project Report</title>
+<title>Hospital Appointment & Patient Queue Management System - PBL Project Report</title>
 <style>
     @page {
-        size: A4;
-        margin: 18mm 16mm 18mm 16mm;
+        size: A4 portrait;
+        margin: 20mm 18mm 20mm 18mm;
         @bottom-right {
-            content: counter(page);
+            content: "Page " counter(page);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 8.5pt;
+            color: #64748B;
+        }
+        @bottom-left {
+            content: "Department of Data Engineering • Advanced Java Programming PBL";
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 8.5pt;
+            color: #64748B;
+        }
+        @top-right {
+            content: "Hospital Queue & Appointment System";
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 8.5pt;
+            color: #94A3B8;
         }
     }
+
+    * {
+        box-sizing: border-box;
+    }
+
     body {
-        font-family: 'Segoe UI', Arial, sans-serif;
-        color: #1a202c;
-        line-height: 1.6;
-        font-size: 11pt;
-        background: #fff;
+        font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+        color: #1E293B;
+        line-height: 1.65;
+        font-size: 10.5pt;
+        background: #FFFFFF;
         margin: 0;
         padding: 0;
     }
-    
-    /* Cover Page */
-    .cover-page {
+
+    /* ============================================================
+       COVER PAGE STYLING
+       ============================================================ */
+    .cover-container {
         page-break-after: always;
-        height: 95vh;
+        height: 96vh;
+        border: 3px double #0B2545;
+        outline: 1px solid #1E3A8A;
+        outline-offset: -7px;
+        padding: 35px 28px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         text-align: center;
-        border: 4px double #0F2240;
-        padding: 40px 30px;
-        box-sizing: border-box;
-    }
-    .cover-header {
-        margin-top: 20px;
-    }
-    .cover-header h3 {
-        font-size: 15pt;
-        letter-spacing: 2px;
-        color: #264772;
-        margin: 0;
-        text-transform: uppercase;
-    }
-    .cover-header h4 {
-        font-size: 12pt;
-        font-weight: 500;
-        color: #4a5568;
-        margin: 8px 0 0 0;
-    }
-    .cover-title-box {
-        margin: 40px 0;
-        padding: 30px 20px;
-        background: #F8FAFC;
-        border-top: 3px solid #1877F2;
-        border-bottom: 3px solid #1877F2;
-    }
-    .cover-title-box h1 {
-        font-size: 24pt;
-        color: #0F2240;
-        margin: 0 0 10px 0;
-        line-height: 1.25;
-        font-weight: 700;
-    }
-    .cover-title-box h2 {
-        font-size: 13pt;
-        color: #1877F2;
-        font-weight: 600;
-        margin: 0;
-    }
-    .cover-meta {
-        text-align: left;
-        margin: 0 auto;
-        width: 80%;
-        background: #F8FAFC;
-        padding: 20px 25px;
-        border-radius: 6px;
-        border: 1px solid #E2E8F0;
-        font-size: 11pt;
-    }
-    .cover-meta table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-    .cover-meta td {
-        padding: 6px 10px;
-        border: none;
-    }
-    .cover-meta td.label {
-        font-weight: bold;
-        color: #0F2240;
-        width: 38%;
-    }
-    .cover-footer {
-        margin-bottom: 10px;
-        font-size: 10pt;
-        color: #718096;
-        border-top: 1px solid #E2E8F0;
-        padding-top: 15px;
+        background: radial-gradient(circle at top right, #F8FAFC 0%, #FFFFFF 70%);
     }
 
-    /* Content Styling */
-    h1.sec-title {
-        font-size: 16pt;
-        color: #0F2240;
-        border-bottom: 2px solid #1877F2;
+    .cover-header h3 {
+        font-family: 'Georgia', 'Times New Roman', serif;
+        font-size: 14pt;
+        letter-spacing: 2.5px;
+        color: #0B2545;
+        margin: 0 0 6px 0;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+
+    .cover-header h4 {
+        font-family: 'Segoe UI', sans-serif;
+        font-size: 11.5pt;
+        font-weight: 600;
+        color: #1E40AF;
+        margin: 0 0 4px 0;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+    }
+
+    .cover-header p {
+        font-size: 9.5pt;
+        color: #64748B;
+        margin: 0;
+    }
+
+    .cover-emblem {
+        margin: 22px auto;
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        background: #EFF6FF;
+        border: 2px solid #2563EB;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32pt;
+        color: #1D4ED8;
+        box-shadow: 0 4px 10px rgba(37, 99, 235, 0.12);
+    }
+
+    .cover-title-section {
+        margin: 15px 0;
+        padding: 24px 20px;
+        background: #FFFFFF;
+        border-top: 3px solid #1E40AF;
+        border-bottom: 3px solid #1E40AF;
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    }
+
+    .cover-title-section .subtitle-tag {
+        display: inline-block;
+        background: #DBEAFE;
+        color: #1E40AF;
+        padding: 3px 12px;
+        border-radius: 20px;
+        font-size: 8.5pt;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+    }
+
+    .cover-title-section h1 {
+        font-family: 'Georgia', 'Times New Roman', serif;
+        font-size: 21pt;
+        color: #0B2545;
+        margin: 0 0 8px 0;
+        line-height: 1.3;
+        font-weight: 700;
+    }
+
+    .cover-title-section h2 {
+        font-size: 11.5pt;
+        color: #3B82F6;
+        font-weight: 600;
+        margin: 0;
+        line-height: 1.4;
+    }
+
+    .cover-details-grid {
+        width: 90%;
+        margin: 0 auto;
+        border: 1px solid #E2E8F0;
+        border-radius: 6px;
+        background: #F8FAFC;
+        overflow: hidden;
+    }
+
+    .cover-details-grid table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 10pt;
+    }
+
+    .cover-details-grid td {
+        padding: 7px 14px;
+        border-bottom: 1px solid #E2E8F0;
+        text-align: left;
+    }
+
+    .cover-details-grid tr:last-child td {
+        border-bottom: none;
+    }
+
+    .cover-details-grid td.label-col {
+        font-weight: 700;
+        color: #0B2545;
+        width: 38%;
+        background: #F1F5F9;
+        border-right: 1px solid #E2E8F0;
+    }
+
+    .cover-details-grid td.val-col {
+        color: #334155;
+    }
+
+    .cover-signatures {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 25px;
+        padding: 0 25px;
+    }
+
+    .sig-block {
+        width: 42%;
+        text-align: center;
+        border-top: 1.5px solid #94A3B8;
+        padding-top: 6px;
+        font-size: 9pt;
+        color: #475569;
+        font-weight: 600;
+    }
+
+    .cover-footer {
+        font-size: 8.5pt;
+        color: #94A3B8;
+        margin-top: 8px;
+    }
+
+    /* ============================================================
+       REPORT BODY STYLING
+       ============================================================ */
+    h1.chapter-title {
+        font-family: 'Georgia', 'Times New Roman', serif;
+        font-size: 15pt;
+        color: #0B2545;
+        border-bottom: 2.5px solid #1E40AF;
         padding-bottom: 5px;
-        margin-top: 28px;
+        margin-top: 30px;
         margin-bottom: 14px;
         page-break-after: avoid;
+        display: flex;
+        align-items: center;
     }
+
+    h1.chapter-title::before {
+        content: "";
+        display: inline-block;
+        width: 6px;
+        height: 18px;
+        background: #2563EB;
+        margin-right: 10px;
+        border-radius: 2px;
+    }
+
     h2.sub-title {
-        font-size: 13pt;
-        color: #183153;
-        margin-top: 20px;
-        margin-bottom: 10px;
+        font-size: 12pt;
+        color: #1E3A8A;
+        margin-top: 18px;
+        margin-bottom: 8px;
+        font-weight: 700;
         page-break-after: avoid;
     }
+
     h3 {
-        font-size: 11pt;
-        color: #2B6CB0;
+        font-size: 10.5pt;
+        color: #0284C7;
         margin-top: 14px;
         margin-bottom: 6px;
+        font-weight: 700;
         page-break-after: avoid;
     }
+
     p {
         margin: 0 0 10px 0;
         text-align: justify;
-    }
-    ul, ol {
-        margin: 0 0 12px 0;
-        padding-left: 24px;
-    }
-    li {
-        margin-bottom: 5px;
+        color: #334155;
     }
 
-    /* Tables */
+    ul, ol {
+        margin: 0 0 12px 0;
+        padding-left: 22px;
+        color: #334155;
+    }
+
+    li {
+        margin-bottom: 4px;
+    }
+
+    /* Professional Tables */
     table.content-table {
         width: 100%;
         border-collapse: collapse;
-        margin: 14px 0;
-        font-size: 10pt;
+        margin: 14px 0 18px 0;
+        font-size: 9.5pt;
         page-break-inside: avoid;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
+
     table.content-table th {
-        background-color: #0F2240;
-        color: #ffffff;
+        background: #0B2545;
+        color: #FFFFFF;
         font-weight: 600;
         text-align: left;
         padding: 8px 10px;
-        border: 1px solid #0F2240;
+        border: 1px solid #0B2545;
+        font-size: 9.5pt;
+        letter-spacing: 0.3px;
     }
+
     table.content-table td {
         padding: 7px 10px;
-        border: 1px solid #CBD5E0;
+        border: 1px solid #E2E8F0;
         vertical-align: top;
+        color: #334155;
     }
+
     table.content-table tr:nth-child(even) {
         background-color: #F8FAFC;
     }
 
-    /* Callout & Code Box */
+    table.content-table tr:hover {
+        background-color: #F1F5F9;
+    }
+
+    /* Callouts & Info Panels */
     .callout {
-        background-color: #EBF4FF;
-        border-left: 4px solid #1877F2;
+        background-color: #F0F9FF;
+        border-left: 4px solid #0284C7;
         padding: 12px 16px;
         margin: 14px 0;
         border-radius: 0 6px 6px 0;
-    }
-    .callout-title {
-        font-weight: bold;
-        color: #0F2240;
-        margin-bottom: 4px;
-    }
-    pre {
-        background-color: #1E293B;
-        color: #E2E8F0;
-        padding: 12px 14px;
-        border-radius: 6px;
-        font-family: 'Consolas', 'Courier New', monospace;
-        font-size: 9pt;
-        line-height: 1.4;
-        overflow-x: auto;
         page-break-inside: avoid;
     }
-    code {
-        font-family: 'Consolas', monospace;
-        background-color: #EDF2F7;
-        color: #C53030;
-        padding: 2px 4px;
-        border-radius: 3px;
+
+    .callout-title {
+        font-weight: 700;
+        color: #0369A1;
+        margin-bottom: 4px;
+        font-size: 10pt;
+    }
+
+    .callout p {
+        margin: 0;
         font-size: 9.5pt;
     }
+
+    /* Code Blocks */
+    pre {
+        background-color: #0F172A;
+        color: #E2E8F0;
+        padding: 12px 15px;
+        border-radius: 6px;
+        font-family: 'Consolas', 'Courier New', monospace;
+        font-size: 8.8pt;
+        line-height: 1.45;
+        overflow-x: auto;
+        page-break-inside: avoid;
+        border: 1px solid #1E293B;
+    }
+
+    code {
+        font-family: 'Consolas', monospace;
+        background-color: #F1F5F9;
+        color: #B91C1C;
+        padding: 2px 5px;
+        border-radius: 3px;
+        font-size: 9pt;
+    }
+
     pre code {
         background: transparent;
         color: inherit;
@@ -202,26 +348,30 @@
     /* Architecture Box */
     .arch-diagram {
         background: #F8FAFC;
-        border: 1px solid #CBD5E0;
-        padding: 15px;
-        border-radius: 6px;
-        margin: 16px 0;
+        border: 1px solid #CBD5E1;
+        border-left: 4px solid #1E40AF;
+        padding: 14px 16px;
+        border-radius: 0 6px 6px 0;
+        margin: 14px 0;
         font-family: 'Consolas', monospace;
-        font-size: 9.5pt;
+        font-size: 8.8pt;
         white-space: pre;
         line-height: 1.35;
         page-break-inside: avoid;
+        color: #0F172A;
     }
 
+    /* Badges */
     .badge {
         display: inline-block;
         padding: 2px 8px;
         border-radius: 12px;
         font-size: 8.5pt;
-        font-weight: bold;
+        font-weight: 700;
     }
-    .badge-pass { background-color: #DCFCE7; color: #166534; }
-    .badge-emg { background-color: #FEE2E2; color: #991B1B; }
+    .badge-pass { background-color: #DCFCE7; color: #166534; border: 1px solid #86EFAC; }
+    .badge-emg { background-color: #FEE2E2; color: #991B1B; border: 1px solid #FCA5A5; }
+    .badge-info { background-color: #E0F2FE; color: #0369A1; border: 1px solid #BAE6FD; }
 
     .page-break {
         page-break-after: always;
@@ -230,55 +380,78 @@
 </head>
 <body>
 
-<!-- COVER PAGE -->
-<div class="cover-page">
+<!-- ============================================================
+     COVER PAGE
+     ============================================================ -->
+<div class="cover-container">
     <div class="cover-header">
-        <h3>PROJECT-BASED LEARNING (PBL) REPORT</h3>
-        <h4>Department of Computer Science & Engineering</h4>
+        <h3>PROJECT-BASED LEARNING (PBL) CAPSTONE REPORT</h3>
+        <h4>DEPARTMENT OF DATA ENGINEERING</h4>
+        <p>Advanced Java Programming & Concurrent Systems Development</p>
     </div>
 
-    <div class="cover-title-box">
+    <div class="cover-emblem">
+        <span>⚕</span>
+    </div>
+
+    <div class="cover-title-section">
+        <span class="subtitle-tag">Advanced Java PBL Project</span>
         <h1>Hospital Appointment and Patient Queue Management System</h1>
         <h2>A Multi-Threaded, Priority-Driven Clinical Desktop Application Using Java Swing</h2>
     </div>
 
-    <div class="cover-meta">
+    <div class="cover-details-grid">
         <table>
             <tr>
-                <td class="label">Course Name:</td>
-                <td>Advanced Java Programming</td>
+                <td class="label-col">Department:</td>
+                <td class="val-col"><strong>Department of Data Engineering</strong></td>
             </tr>
             <tr>
-                <td class="label">Project Type:</td>
-                <td>PBL (Project-Based Learning) Capstone</td>
+                <td class="label-col">Course Name:</td>
+                <td class="val-col">Advanced Java Programming (CS-PBL)</td>
             </tr>
             <tr>
-                <td class="label">Technology Stack:</td>
-                <td>Java SE 25, Java Swing, Concurrency & Collections</td>
+                <td class="label-col">Project Domain:</td>
+                <td class="val-col">Healthcare Data & Concurrent Systems Engineering</td>
             </tr>
             <tr>
-                <td class="label">Architecture:</td>
-                <td>Producer–Consumer, MVC/Tiered, Observer Pattern</td>
+                <td class="label-col">Technology Stack:</td>
+                <td class="val-col">Java SE 25, Java Swing, Concurrency & Collections</td>
             </tr>
             <tr>
-                <td class="label">Status:</td>
-                <td>Fully Implemented & Verified (100% Pass)</td>
+                <td class="label-col">Architecture:</td>
+                <td class="val-col">Producer–Consumer Pattern, MVC/Tiered, Observer Pattern</td>
+            </tr>
+            <tr>
+                <td class="label-col">Verification Status:</td>
+                <td class="val-col"><span class="badge badge-pass">100% Passed (7/7 Automated Suites Verified)</span></td>
             </tr>
         </table>
     </div>
 
+    <div class="cover-signatures">
+        <div class="sig-block">
+            Project Candidate / Student<br>Department of Data Engineering
+        </div>
+        <div class="sig-block">
+            Course Faculty / Evaluator<br>Department of Data Engineering
+        </div>
+    </div>
+
     <div class="cover-footer">
-        <p>Advanced Java Programming Project Report &bull; Academic Year 2026</p>
+        Academic Year 2026 &bull; Department of Data Engineering &bull; Project Demonstration Edition
     </div>
 </div>
 
-<!-- EXECUTIVE SUMMARY / ABSTRACT -->
-<h1 class="sec-title">1. Executive Summary & Abstract</h1>
+<!-- ============================================================
+     CHAPTER 1: ABSTRACT & INTRODUCTION
+     ============================================================ -->
+<h1 class="chapter-title">1. Abstract & Executive Summary</h1>
 <p>
-Modern outpatient healthcare departments manage hundreds of patient visits daily across various medical specialties. Manual queuing and disjointed scheduling lead to significant patient waiting times, clerical appointment conflicts, and hazardous delays when handling emergency trauma arrivals. 
+Modern outpatient healthcare departments manage hundreds of patient visits daily across medical specialties. Manual queuing and disjointed scheduling lead to significant patient waiting times, clerical appointment conflicts, and hazardous delays when handling emergency trauma arrivals. 
 </p>
 <p>
-The <strong>Hospital Appointment and Patient Queue Management System</strong> is a standalone clinical software application engineered in pure <strong>Java Swing</strong>. The application features a medical design theme (Deep Navy, Pure White, and Sky Blue) and incorporates essential Advanced Java paradigms:
+The <strong>Hospital Appointment and Patient Queue Management System</strong> is a standalone clinical software application engineered in pure <strong>Java Swing</strong> by the <strong>Department of Data Engineering</strong>. The application features a medical design theme (Deep Navy, Pure White, and Sky Blue) and incorporates essential Advanced Java engineering paradigms:
 </p>
 <ul>
     <li><strong>Multi-Threaded Producer–Consumer Queue:</strong> Uses Java intrinsic monitors (<code>synchronized</code>, <code>wait()</code>, and <code>notifyAll()</code>) to guarantee thread safety between appointment dispatchers (producers) and consultation examination desks (consumers).</li>
@@ -288,13 +461,12 @@ The <strong>Hospital Appointment and Patient Queue Management System</strong> is
     <li><strong>Responsive GUI & Dynamic Observer:</strong> Offloads heavy tasks to background worker threads while routing UI mutations to the Swing Event Dispatch Thread (EDT) via <code>SwingUtilities.invokeLater()</code>.</li>
 </ul>
 
-<!-- INTRODUCTION & OBJECTIVES -->
-<h1 class="sec-title">2. Introduction & System Objectives</h1>
+<h1 class="chapter-title">2. Introduction & System Objectives</h1>
 <p>
 Clinical facilities require strict coordination between reception triage, scheduled specialist appointments, and emergency admissions. Traditional desktop software frequently suffers from unresponsive user interfaces when processing concurrent tasks or fails to enforce strict priority during patient emergencies.
 </p>
 <div class="callout">
-    <div class="callout-title">Project Objectives</div>
+    <div class="callout-title">Core Engineering Objectives</div>
     <ol>
         <li>Construct an intuitive desktop interface with six functional modules: Dashboard, Patient Management, Doctor Directory, Appointment Dispatch, Priority Queues, and Consultation Desk.</li>
         <li>Implement thread-safe Producer–Consumer queuing utilizing Java monitor synchronization.</li>
@@ -304,8 +476,10 @@ Clinical facilities require strict coordination between reception triage, schedu
     </ol>
 </div>
 
-<!-- SYSTEM ARCHITECTURE -->
-<h1 class="sec-title">3. System Architecture & Component Design</h1>
+<!-- ============================================================
+     CHAPTER 3: ARCHITECTURE & DESIGN
+     ============================================================ -->
+<h1 class="chapter-title">3. System Architecture & Component Design</h1>
 <p>
 The application utilizes a decoupled, multi-layered architecture separating presentation, service coordination, concurrency control, and domain models.
 </p>
@@ -336,15 +510,18 @@ The application utilizes a decoupled, multi-layered architecture separating pres
 
 <div class="page-break"></div>
 
-<h1 class="sec-title">4. Advanced Java Technical Implementation</h1>
+<!-- ============================================================
+     CHAPTER 4: ADVANCED JAVA IMPLEMENTATION
+     ============================================================ -->
+<h1 class="chapter-title">4. Advanced Java Technical Implementation</h1>
 
 <h2 class="sub-title">4.1 Object-Oriented Principles (OOP) Mapping</h2>
 <table class="content-table">
     <thead>
         <tr>
-            <th style="width: 22%;">OOP Principle</th>
-            <th style="width: 38%;">Implementation in Project</th>
-            <th style="width: 40%;">Source File Reference</th>
+            <th style="width: 20%;">OOP Concept</th>
+            <th style="width: 42%;">Implementation in Project</th>
+            <th style="width: 38%;">Source File Reference</th>
         </tr>
     </thead>
     <tbody>
@@ -423,7 +600,10 @@ The system implements checked exceptions to protect against illegal state mutati
 
 <div class="page-break"></div>
 
-<h1 class="sec-title">5. Module Walkthrough & Features</h1>
+<!-- ============================================================
+     CHAPTER 5: MODULE WALKTHROUGH
+     ============================================================ -->
+<h1 class="chapter-title">5. Module Walkthrough & Clinical Workflows</h1>
 
 <h2 class="sub-title">5.1 Dashboard Screen</h2>
 <p>
@@ -447,7 +627,7 @@ Provides automated unique appointment ID generation (<code>APT-XXXX</code>), pat
 
 <h2 class="sub-title">5.5 Dual-Priority Queue Management</h2>
 <p>
-Displays separate visual tables for the **Emergency Priority Queue** (Crimson accent) and the **Regular Patient Queue** (Navy accent). Features an automated "Next-in-Line" compute banner and a Walk-In Token Generator (Producer) allowing receptionists to triage walk-in cases instantly.
+Displays separate visual tables for the <strong>Emergency Priority Queue</strong> (Crimson accent) and the <strong>Regular Patient Queue</strong> (Navy accent). Features an automated "Next-in-Line" compute banner and a Walk-In Token Generator (Producer) allowing receptionists to triage walk-in cases instantly.
 </p>
 
 <h2 class="sub-title">5.6 Consultation Desk (Doctor's Workstation)</h2>
@@ -455,8 +635,10 @@ Displays separate visual tables for the **Emergency Priority Queue** (Crimson ac
 The clinical examination workstation where doctors examine patients retrieved from the queue. It includes fields for clinical vitals (BP, Heart Rate, SpO2, Temperature), Symptoms, Diagnosis, Prescription, and Advice. Includes a toggleable multi-threaded background simulation engine and a comprehensive consultation history archive.
 </p>
 
-<!-- TESTING & VERIFICATION -->
-<h1 class="sec-title">6. Testing & Quality Assurance Matrix</h1>
+<!-- ============================================================
+     CHAPTER 6: TESTING & VERIFICATION MATRIX
+     ============================================================ -->
+<h1 class="chapter-title">6. Testing & Quality Assurance Matrix</h1>
 <p>
 The system was verified using an automated headless test suite (<code>SystemTestSuite.java</code>) executing unit and integration tests across concurrency and business rules.
 </p>
@@ -493,7 +675,7 @@ The system was verified using an automated headless test suite (<code>SystemTest
             <td><strong>TC-04</strong></td>
             <td>Conflict Handling</td>
             <td>Attempt double-booking same doctor at identical date & slot</td>
-            <td><span class="badge badge-pass">PASSED (Exception Thrown)</span></td>
+            <td><span class="badge badge-pass">PASSED (Exception Caught)</span></td>
         </tr>
         <tr>
             <td><strong>TC-05</strong></td>
@@ -517,12 +699,14 @@ The system was verified using an automated headless test suite (<code>SystemTest
 </table>
 
 <div class="callout">
-    <div class="callout-title">Testing Conclusion</div>
-    All 7 automated test suites completed with <strong>0 failures and 0 errors</strong>, demonstrating system stability, thread safety, and data integrity.
+    <div class="callout-title">Department Testing Conclusion</div>
+    <p>All 7 automated test suites completed with <strong>0 failures and 0 errors</strong>, demonstrating system stability, thread safety, and data integrity.</p>
 </div>
 
-<!-- CONCLUSION -->
-<h1 class="sec-title">7. Conclusion & Learning Outcomes</h1>
+<!-- ============================================================
+     CHAPTER 7: CONCLUSION
+     ============================================================ -->
+<h1 class="chapter-title">7. Conclusion & Learning Outcomes</h1>
 <p>
 This project demonstrates the practical application of Advanced Java programming concepts in resolving real-world healthcare workflow challenges. Key student learning outcomes include:
 </p>
@@ -533,9 +717,9 @@ This project demonstrates the practical application of Advanced Java programming
     <li>Leveraging Java Collections (<code>LinkedHashMap</code>, <code>LinkedList</code>, <code>ArrayList</code>) for efficient, predictable data storage and retrieval.</li>
 </ol>
 
-<hr style="border: 0; border-top: 1px solid #CBD5E0; margin: 30px 0 10px 0;">
-<p style="text-align: center; font-size: 9.5pt; color: #718096;">
-    &copy; 2026 Department of Computer Science & Engineering &bull; Advanced Java Programming PBL Capstone Report
+<hr style="border: 0; border-top: 1px solid #CBD5E1; margin: 30px 0 10px 0;">
+<p style="text-align: center; font-size: 9pt; color: #64748B;">
+    &copy; 2026 Department of Data Engineering &bull; Advanced Java Programming PBL Capstone Report
 </p>
 
 </body>
