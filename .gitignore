@@ -1,0 +1,19 @@
+# Compiled binaries and class files
+bin/
+*.class
+
+# Exclude generated PDF report as requested
+*.pdf
+PROJECT_REPORT.pdf
+
+# IDE and Editor configurations
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+
+# Temporary and log files
+*.log
+*.tmp

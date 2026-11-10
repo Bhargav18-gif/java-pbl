@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Hospital Appointment & Patient Queue Management System - Project Report</title>
+<style>
+    @page {
+        size: A4;
+        margin: 18mm 16mm 18mm 16mm;
+        @bottom-right {
+            content: counter(page);
+        }
+    }
+    body {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        color: #1a202c;
+        line-height: 1.6;
+        font-size: 11pt;
+        background: #fff;
+        margin: 0;
+        padding: 0;
+    }
+    
+    /* Cover Page */
+    .cover-page {
+        page-break-after: always;
+        height: 95vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        text-align: center;
+        border: 4px double #0F2240;
+        padding: 40px 30px;
+        box-sizing: border-box;
+    }
+    .cover-header {
+        margin-top: 20px;
+    }
+    .cover-header h3 {
+        font-size: 15pt;
+        letter-spacing: 2px;
+        color: #264772;
+        margin: 0;
+        text-transform: uppercase;
+    }
+    .cover-header h4 {
+        font-size: 12pt;
+        font-weight: 500;
+        color: #4a5568;
+        margin: 8px 0 0 0;
+    }
+    .cover-title-box {
+        margin: 40px 0;
+        padding: 30px 20px;
+        background: #F8FAFC;
+        border-top: 3px solid #1877F2;
+        border-bottom: 3px solid #1877F2;
+    }
+    .cover-title-box h1 {
+        font-size: 24pt;
+        color: #0F2240;
+        margin: 0 0 10px 0;
+        line-height: 1.25;
+        font-weight: 700;
+    }
+    .cover-title-box h2 {
+        font-size: 13pt;
+        color: #1877F2;
+        font-weight: 600;
+        margin: 0;
+    }
+    .cover-meta {
+        text-align: left;
+        margin: 0 auto;
+        width: 80%;
+        background: #F8FAFC;
+        padding: 20px 25px;
+        border-radius: 6px;
+        border: 1px solid #E2E8F0;
+        font-size: 11pt;
+    }
+    .cover-meta table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .cover-meta td {
+        padding: 6px 10px;
+        border: none;
+    }
+    .cover-meta td.label {
+        font-weight: bold;
+        color: #0F2240;
+        width: 38%;
+    }
+    .cover-footer {
+        margin-bottom: 10px;
+        font-size: 10pt;
+        color: #718096;
+        border-top: 1px solid #E2E8F0;
+        padding-top: 15px;
+    }
+
+    /* Content Styling */
+    h1.sec-title {
+        font-size: 16pt;
+        color: #0F2240;
+        border-bottom: 2px solid #1877F2;
+        padding-bottom: 5px;
+        margin-top: 28px;
+        margin-bottom: 14px;
+        page-break-after: avoid;
+    }
+    h2.sub-title {
+        font-size: 13pt;
+        color: #183153;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        page-break-after: avoid;
+    }
+    h3 {
+        font-size: 11pt;
+        color: #2B6CB0;
+        margin-top: 14px;
+        margin-bottom: 6px;
+        page-break-after: avoid;
+    }
+    p {
+        margin: 0 0 10px 0;
+        text-align: justify;
+    }
+    ul, ol {
+        margin: 0 0 12px 0;
+        padding-left: 24px;
+    }
+    li {
+        margin-bottom: 5px;
+    }
+
+    /* Tables */
+    table.content-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 14px 0;
+        font-size: 10pt;
+        page-break-inside: avoid;
+    }
+    table.content-table th {
+        background-color: #0F2240;
+        color: #ffffff;
+        font-weight: 600;
+        text-align: left;
+        padding: 8px 10px;
+        border: 1px solid #0F2240;
+    }
+    table.content-table td {
+        padding: 7px 10px;
+        border: 1px solid #CBD5E0;
+        vertical-align: top;
+    }
+    table.content-table tr:nth-child(even) {
+        background-color: #F8FAFC;
+    }
+
+    /* Callout & Code Box */
+    .callout {
+        background-color: #EBF4FF;
+        border-left: 4px solid #1877F2;
+        padding: 12px 16px;
+        margin: 14px 0;
+        border-radius: 0 6px 6px 0;
+    }
+    .callout-title {
+        font-weight: bold;
+        color: #0F2240;
+        margin-bottom: 4px;
+    }
+    pre {
+        background-color: #1E293B;
+        color: #E2E8F0;
+        padding: 12px 14px;
+        border-radius: 6px;
+        font-family: 'Consolas', 'Courier New', monospace;
+        font-size: 9pt;
+        line-height: 1.4;
+        overflow-x: auto;
+        page-break-inside: avoid;
+    }
+    code {
+        font-family: 'Consolas', monospace;
+        background-color: #EDF2F7;
+        color: #C53030;
+        padding: 2px 4px;
+        border-radius: 3px;
+        font-size: 9.5pt;
+    }
+    pre code {
+        background: transparent;
+        color: inherit;
+        padding: 0;
+    }
+
+    /* Architecture Box */
+    .arch-diagram {
+        background: #F8FAFC;
+        border: 1px solid #CBD5E0;
+        padding: 15px;
+        border-radius: 6px;
+        margin: 16px 0;
+        font-family: 'Consolas', monospace;
+        font-size: 9.5pt;
+        white-space: pre;
+        line-height: 1.35;
+        page-break-inside: avoid;
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-size: 8.5pt;
+        font-weight: bold;
+    }
+    .badge-pass { background-color: #DCFCE7; color: #166534; }
+    .badge-emg { background-color: #FEE2E2; color: #991B1B; }
+
+    .page-break {
+        page-break-after: always;
+    }
+</style>
+</head>
+<body>
+
+<!-- COVER PAGE -->
+<div class="cover-page">
+    <div class="cover-header">
+        <h3>PROJECT-BASED LEARNING (PBL) REPORT</h3>
+        <h4>Department of Computer Science & Engineering</h4>
+    </div>
+
+    <div class="cover-title-box">
+        <h1>Hospital Appointment and Patient Queue Management System</h1>
+        <h2>A Multi-Threaded, Priority-Driven Clinical Desktop Application Using Java Swing</h2>
+    </div>
+
+    <div class="cover-meta">
+        <table>
+            <tr>
+                <td class="label">Course Name:</td>
+                <td>Advanced Java Programming</td>
+            </tr>
+            <tr>
+                <td class="label">Project Type:</td>
+                <td>PBL (Project-Based Learning) Capstone</td>
+            </tr>
+            <tr>
+                <td class="label">Technology Stack:</td>
+                <td>Java SE 25, Java Swing, Concurrency & Collections</td>
+            </tr>
+            <tr>
+                <td class="label">Architecture:</td>
+                <td>Producer–Consumer, MVC/Tiered, Observer Pattern</td>
+            </tr>
+            <tr>
+                <td class="label">Status:</td>
+                <td>Fully Implemented & Verified (100% Pass)</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="cover-footer">
+        <p>Advanced Java Programming Project Report &bull; Academic Year 2026</p>
+    </div>
+</div>
+
+<!-- EXECUTIVE SUMMARY / ABSTRACT -->
+<h1 class="sec-title">1. Executive Summary & Abstract</h1>
+<p>
+Modern outpatient healthcare departments manage hundreds of patient visits daily across various medical specialties. Manual queuing and disjointed scheduling lead to significant patient waiting times, clerical appointment conflicts, and hazardous delays when handling emergency trauma arrivals. 
+</p>
+<p>
+The <strong>Hospital Appointment and Patient Queue Management System</strong> is a standalone clinical software application engineered in pure <strong>Java Swing</strong>. The application features a medical design theme (Deep Navy, Pure White, and Sky Blue) and incorporates essential Advanced Java paradigms:
+</p>
+<ul>
+    <li><strong>Multi-Threaded Producer–Consumer Queue:</strong> Uses Java intrinsic monitors (<code>synchronized</code>, <code>wait()</code>, and <code>notifyAll()</code>) to guarantee thread safety between appointment dispatchers (producers) and consultation examination desks (consumers).</li>
+    <li><strong>Strict Emergency Priority Triage:</strong> Maintains independent Emergency and Regular patient queues where critical patients receive non-preemptive priority over standard appointments.</li>
+    <li><strong>Object-Oriented Architecture:</strong> Features an abstract base <code>Person</code> class with polymorphic subclasses (<code>Patient</code> and <code>Doctor</code>) and decoupled interfaces (<code>Queueable</code>, <code>Searchable</code>, <code>QueueObserver</code>).</li>
+    <li><strong>Data Integrity & Exception Handling:</strong> Implements custom checked exceptions including <code>DuplicateBookingException</code> to prevent double-booking specialists for identical time slots.</li>
+    <li><strong>Responsive GUI & Dynamic Observer:</strong> Offloads heavy tasks to background worker threads while routing UI mutations to the Swing Event Dispatch Thread (EDT) via <code>SwingUtilities.invokeLater()</code>.</li>
+</ul>
+
+<!-- INTRODUCTION & OBJECTIVES -->
+<h1 class="sec-title">2. Introduction & System Objectives</h1>
+<p>
+Clinical facilities require strict coordination between reception triage, scheduled specialist appointments, and emergency admissions. Traditional desktop software frequently suffers from unresponsive user interfaces when processing concurrent tasks or fails to enforce strict priority during patient emergencies.
+</p>
+<div class="callout">
+    <div class="callout-title">Project Objectives</div>
+    <ol>
+        <li>Construct an intuitive desktop interface with six functional modules: Dashboard, Patient Management, Doctor Directory, Appointment Dispatch, Priority Queues, and Consultation Desk.</li>
+        <li>Implement thread-safe Producer–Consumer queuing utilizing Java monitor synchronization.</li>
+        <li>Enforce strict priority queue dispatch ensuring emergency patients are attended before standard appointments.</li>
+        <li>Eliminate scheduling conflicts through custom validation and duplicate-booking exception handling.</li>
+        <li>Ensure 100% responsiveness on the Swing Event Dispatch Thread (EDT).</li>
+    </ol>
+</div>
+
+<!-- SYSTEM ARCHITECTURE -->
+<h1 class="sec-title">3. System Architecture & Component Design</h1>
+<p>
+The application utilizes a decoupled, multi-layered architecture separating presentation, service coordination, concurrency control, and domain models.
+</p>
+
+<div class="arch-diagram">
++-----------------------------------------------------------------------------------+
+|                        PRESENTATION TIER (JAVA SWING GUI)                         |
+|   MainFrame (CardLayout Coordinator)  |  DashboardPanel  |  PatientPanel          |
+|   DoctorPanel  |  AppointmentPanel    |  QueuePanel      |  ConsultationPanel     |
++-----------------------------------------------------------------------------------+
+                                          |
++-----------------------------------------------------------------------------------+
+|                         APPLICATION SERVICE CONTROLLER                            |
+|                  HospitalManager (Thread-Safe Singleton Service)                  |
+|    - Maps: LinkedHashMap&lt;String, Patient&gt;, Doctor, Appointment                   |
+|    - History: ArrayList&lt;ConsultationRecord&gt;  |  Observers: List&lt;QueueObserver&gt;    |
++-----------------------------------------------------------------------------------+
+                   |                                                 |
++---------------------------------------+         +---------------------------------+
+|         CONCURRENCY TIER              |         |          DOMAIN MODELS          |
+|      HospitalQueueEngine              |         |  - Person (Abstract Superclass) |
+|  - Producer: produceToken()           |         |  - Patient, Doctor (Subclasses) |
+|  - Consumer: consumeToken()           |         |  - Appointment, QueueToken      |
+|  - Dual LinkedList Queues             |         |  - ConsultationRecord           |
+|  - Monitor: synchronized/wait/notify  |         |  - Custom Checked Exceptions    |
++---------------------------------------+         +---------------------------------+
+</div>
+
+<div class="page-break"></div>
+
+<h1 class="sec-title">4. Advanced Java Technical Implementation</h1>
+
+<h2 class="sub-title">4.1 Object-Oriented Principles (OOP) Mapping</h2>
+<table class="content-table">
+    <thead>
+        <tr>
+            <th style="width: 22%;">OOP Principle</th>
+            <th style="width: 38%;">Implementation in Project</th>
+            <th style="width: 40%;">Source File Reference</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>Abstraction</strong></td>
+            <td>Abstract class <code>Person</code> encapsulating universal demographic fields (id, name, age, phone) with abstract method <code>getRoleTitle()</code>.</td>
+            <td><code>src/hospital/model/Person.java</code></td>
+        </tr>
+        <tr>
+            <td><strong>Inheritance</strong></td>
+            <td><code>Patient</code> and <code>Doctor</code> extend <code>Person</code>, adding specialized clinical data (blood groups, medical history, degrees, specialty).</td>
+            <td><code>Patient.java</code>, <code>Doctor.java</code></td>
+        </tr>
+        <tr>
+            <td><strong>Polymorphism</strong></td>
+            <td>Overridden <code>matches(query)</code> method across all models; <code>Comparable&lt;QueueToken&gt;</code> sorting; interface-driven observer callbacks.</td>
+            <td><code>Searchable.java</code>, <code>Queueable.java</code></td>
+        </tr>
+        <tr>
+            <td><strong>Encapsulation</strong></td>
+            <td>All data members are marked <code>private</code> or <code>protected</code> with comprehensive getter and setter validation routines.</td>
+            <td>All domain model files</td>
+        </tr>
+    </tbody>
+</table>
+
+<h2 class="sub-title">4.2 Multi-Threading & Producer–Consumer Pattern</h2>
+<p>
+The application features a bounded-buffer Producer–Consumer engine in <code>HospitalQueueEngine.java</code>.
+</p>
+<pre><code>// PRODUCER METHOD: Adds patient tokens to queue with wait() and notifyAll()
+public synchronized void produceToken(QueueToken token) throws InterruptedException {
+    while ((emergencyQueue.size() + regularQueue.size()) >= capacity) {
+        wait(); // Bounded buffer full: Wait for doctor to process tokens
+    }
+    if (token.isEmergency()) {
+        emergencyQueue.addLast(token);
+    } else {
+        regularQueue.addLast(token);
+    }
+    notifyAll(); // Wake up consumers waiting for patients
+    notifyObserversQueueUpdated();
+}
+
+// CONSUMER METHOD: Strict emergency priority queue retrieval
+public synchronized QueueToken consumeToken() throws InterruptedException {
+    while (emergencyQueue.isEmpty() && regularQueue.isEmpty()) {
+        wait(); // No patients waiting: Consumer thread waits
+    }
+    // Strict Emergency Priority Enforcement:
+    QueueToken token = !emergencyQueue.isEmpty() 
+            ? emergencyQueue.removeFirst() 
+            : regularQueue.removeFirst();
+    notifyAll(); // Wake up any producers waiting for buffer space
+    return token;
+}</code></pre>
+
+<h2 class="sub-title">4.3 Java Collections Framework Utilization</h2>
+<ul>
+    <li><strong><code>LinkedHashMap&lt;String, Patient / Doctor / Appointment&gt;</code>:</strong> Guarantees $O(1)$ constant time lookup by primary ID while preserving natural insertion ordering for directory tables.</li>
+    <li><strong><code>LinkedList&lt;QueueToken&gt;</code>:</strong> Implements double-ended queues for separate Emergency and Regular queues, providing $O(1)$ head removals and tail additions.</li>
+    <li><strong><code>ArrayList&lt;ConsultationRecord&gt;</code>:</strong> Dynamic array storing consultation history records and observer subscriber lists.</li>
+    <li><strong><code>Comparable&lt;QueueToken&gt;</code>:</strong> Custom comparator prioritizing emergency tokens ahead of regular tokens.</li>
+</ul>
+
+<h2 class="sub-title">4.4 Custom Exception Handling</h2>
+<p>
+The system implements checked exceptions to protect against illegal state mutations:
+</p>
+<ul>
+    <li><code>DuplicateBookingException</code>: Thrown when an appointment booking conflicts with an existing appointment for the same specialist at the same date and time slot.</li>
+    <li><code>InvalidInputException</code>: Thrown when patient or clinical inputs fail business validation rules.</li>
+    <li><code>QueueEmptyException</code>: Thrown when consultation processing is initiated with no patients waiting.</li>
+    <li><code>DoctorUnavailableException</code>: Thrown if an operation references an inactive specialist.</li>
+</ul>
+
+<div class="page-break"></div>
+
+<h1 class="sec-title">5. Module Walkthrough & Features</h1>
+
+<h2 class="sub-title">5.1 Dashboard Screen</h2>
+<p>
+Provides real-time clinical visibility through 6 KPI summary cards (Total Patients, Total Bookings, Waiting in Queue, Emergency Queue, Completed Consultations, Active Doctors). It features an interactive Live Queue Status Banner that monitors active consultations and a Recent Appointments table with status badges.
+</p>
+
+<h2 class="sub-title">5.2 Patient Management</h2>
+<p>
+Enables comprehensive patient registration with fields for Name, Age, Gender, Phone, Email, Blood Group, Residential Address, Allergies/Medical History, and Emergency Contact. Includes real-time multi-field text search filtering and a direct <em>"Send Selected Patient to Live Queue"</em> dispatch button.
+</p>
+
+<h2 class="sub-title">5.3 Doctor Directory</h2>
+<p>
+Manages specialist profiles across Cardiology, Neurology, Pediatrics, Orthopedics, General Medicine, Dermatology, Oncology, and ENT. Tracks room numbers, qualifications, years of experience, available days, and consultation shift timings.
+</p>
+
+<h2 class="sub-title">5.4 Appointment Scheduling & Conflict Resolution</h2>
+<p>
+Provides automated unique appointment ID generation (<code>APT-XXXX</code>), patient/specialist dropdown mapping, calendar date selection, and standard time slot booking. Validates every booking to eliminate duplicate doctor schedules and provides rescheduling and queue dispatch actions.
+</p>
+
+<h2 class="sub-title">5.5 Dual-Priority Queue Management</h2>
+<p>
+Displays separate visual tables for the **Emergency Priority Queue** (Crimson accent) and the **Regular Patient Queue** (Navy accent). Features an automated "Next-in-Line" compute banner and a Walk-In Token Generator (Producer) allowing receptionists to triage walk-in cases instantly.
+</p>
+
+<h2 class="sub-title">5.6 Consultation Desk (Doctor's Workstation)</h2>
+<p>
+The clinical examination workstation where doctors examine patients retrieved from the queue. It includes fields for clinical vitals (BP, Heart Rate, SpO2, Temperature), Symptoms, Diagnosis, Prescription, and Advice. Includes a toggleable multi-threaded background simulation engine and a comprehensive consultation history archive.
+</p>
+
+<!-- TESTING & VERIFICATION -->
+<h1 class="sec-title">6. Testing & Quality Assurance Matrix</h1>
+<p>
+The system was verified using an automated headless test suite (<code>SystemTestSuite.java</code>) executing unit and integration tests across concurrency and business rules.
+</p>
+
+<table class="content-table">
+    <thead>
+        <tr>
+            <th style="width: 12%;">Test ID</th>
+            <th style="width: 25%;">Scope</th>
+            <th style="width: 38%;">Scenario Tested</th>
+            <th style="width: 25%;">Result</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>TC-01</strong></td>
+            <td>Patient CRUD</td>
+            <td>Register patient, retrieve by ID, execute search query</td>
+            <td><span class="badge badge-pass">PASSED (100%)</span></td>
+        </tr>
+        <tr>
+            <td><strong>TC-02</strong></td>
+            <td>Doctor Management</td>
+            <td>Add specialist, verify room indexing & specialty filtering</td>
+            <td><span class="badge badge-pass">PASSED (100%)</span></td>
+        </tr>
+        <tr>
+            <td><strong>TC-03</strong></td>
+            <td>Appointment Booking</td>
+            <td>Book appointment, verify unique <code>APT-XXXX</code> ID generation</td>
+            <td><span class="badge badge-pass">PASSED (100%)</span></td>
+        </tr>
+        <tr>
+            <td><strong>TC-04</strong></td>
+            <td>Conflict Handling</td>
+            <td>Attempt double-booking same doctor at identical date & slot</td>
+            <td><span class="badge badge-pass">PASSED (Exception Thrown)</span></td>
+        </tr>
+        <tr>
+            <td><strong>TC-05</strong></td>
+            <td>Emergency Triage</td>
+            <td>Enqueue Regular token first, then Emergency; verify poll order</td>
+            <td><span class="badge badge-pass">PASSED (Emergency Served 1st)</span></td>
+        </tr>
+        <tr>
+            <td><strong>TC-06</strong></td>
+            <td>Concurrency Sync</td>
+            <td>Run parallel producer & consumer threads on bounded queue</td>
+            <td><span class="badge badge-pass">PASSED (wait/notify Safe)</span></td>
+        </tr>
+        <tr>
+            <td><strong>TC-07</strong></td>
+            <td>Clinical Archival</td>
+            <td>Complete examination, record diagnosis, verify history log</td>
+            <td><span class="badge badge-pass">PASSED (100%)</span></td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="callout">
+    <div class="callout-title">Testing Conclusion</div>
+    All 7 automated test suites completed with <strong>0 failures and 0 errors</strong>, demonstrating system stability, thread safety, and data integrity.
+</div>
+
+<!-- CONCLUSION -->
+<h1 class="sec-title">7. Conclusion & Learning Outcomes</h1>
+<p>
+This project demonstrates the practical application of Advanced Java programming concepts in resolving real-world healthcare workflow challenges. Key student learning outcomes include:
+</p>
+<ol>
+    <li>Designing modular, maintainable desktop GUI applications in Java Swing without third-party frameworks.</li>
+    <li>Implementing thread coordination with intrinsic monitor synchronization (<code>wait()</code> and <code>notifyAll()</code>) under the Producer–Consumer architectural model.</li>
+    <li>Enforcing clinical business logic through custom checked exception hierarchies and domain-driven design.</li>
+    <li>Leveraging Java Collections (<code>LinkedHashMap</code>, <code>LinkedList</code>, <code>ArrayList</code>) for efficient, predictable data storage and retrieval.</li>
+</ol>
+
+<hr style="border: 0; border-top: 1px solid #CBD5E0; margin: 30px 0 10px 0;">
+<p style="text-align: center; font-size: 9.5pt; color: #718096;">
+    &copy; 2026 Department of Computer Science & Engineering &bull; Advanced Java Programming PBL Capstone Report
+</p>
+
+</body>
+</html>
