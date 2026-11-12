@@ -262,6 +262,84 @@
     }
 
     /* ============================================================
+       ACTUAL IMPLEMENTATION ARCHITECTURE DIAGRAM
+       ============================================================ */
+    .arch-container {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin: 8px 0 12px 0;
+        page-break-inside: avoid;
+    }
+
+    .arch-layer {
+        border: 1px solid #CBD5E1;
+        border-radius: 6px;
+        background: #FFFFFF;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+
+    .arch-layer-header {
+        background: #0B2545;
+        color: #FFFFFF;
+        padding: 4px 10px;
+        font-size: 8.2pt;
+        font-weight: 700;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .arch-layer-tag {
+        background: #2563EB;
+        color: #FFFFFF;
+        font-size: 7pt;
+        padding: 1px 6px;
+        border-radius: 8px;
+    }
+
+    .arch-boxes-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+        gap: 6px;
+        padding: 6px 8px;
+        background: #F8FAFC;
+    }
+
+    .arch-box {
+        background: #FFFFFF;
+        border: 1px solid #E2E8F0;
+        border-left: 3px solid #3B82F6;
+        border-radius: 4px;
+        padding: 4px 6px;
+        font-size: 7.8pt;
+    }
+
+    .arch-box strong {
+        display: block;
+        color: #0F172A;
+        font-size: 8pt;
+        margin-bottom: 1px;
+    }
+
+    .arch-box span {
+        color: #64748B;
+        font-size: 7.2pt;
+        line-height: 1.25;
+        display: block;
+    }
+
+    .arch-connector {
+        text-align: center;
+        font-size: 9pt;
+        color: #2563EB;
+        font-weight: bold;
+        line-height: 1;
+        margin: -4px 0;
+    }
+
+    /* ============================================================
        FULL-PAGE SCREENSHOT PRESENTATION
        ============================================================ */
     .screenshot-hero {
@@ -384,7 +462,7 @@
         width: 100%;
         border-collapse: collapse;
         margin: 8px 0 12px 0;
-        font-size: 8.6pt;
+        font-size: 8.4pt;
     }
 
     table.content-table th {
@@ -392,12 +470,12 @@
         color: #FFFFFF;
         font-weight: 600;
         text-align: left;
-        padding: 6px 9px;
+        padding: 5px 8px;
         border: 1px solid #0B2545;
     }
 
     table.content-table td {
-        padding: 5px 9px;
+        padding: 4px 8px;
         border: 1px solid #E2E8F0;
         vertical-align: top;
         color: #334155;
@@ -410,24 +488,10 @@
     .callout {
         background-color: #F0F9FF;
         border-left: 3.5px solid #0284C7;
-        padding: 8px 12px;
-        margin: 8px 0 12px 0;
+        padding: 7px 11px;
+        margin: 7px 0 10px 0;
         border-radius: 0 5px 5px 0;
-        font-size: 8.6pt;
-    }
-
-    .arch-diagram {
-        background: #F8FAFC;
-        border: 1px solid #CBD5E1;
-        border-left: 3.5px solid #1E40AF;
-        padding: 10px 12px;
-        border-radius: 0 5px 5px 0;
-        margin: 8px 0 12px 0;
-        font-family: 'Consolas', monospace;
-        font-size: 8.2pt;
-        white-space: pre;
-        line-height: 1.3;
-        color: #0F172A;
+        font-size: 8.4pt;
     }
 </style>
 </head>
@@ -576,72 +640,170 @@
 </div>
 
 <!-- ============================================================
-     PAGE 4: SYSTEM ARCHITECTURE & OOP MAPPING
+     PAGE 4: ACTUAL IMPLEMENTATION ARCHITECTURE
      ============================================================ -->
 <div class="page-break">
-    <h1 class="chapter-title">2. System Architecture & Object-Oriented Design</h1>
+    <h1 class="chapter-title">2. Actual Implementation Architecture & Package Map</h1>
     <p>
-        The system employs a layered architectural model separating presentation, controller logic, concurrent queue processing, and domain data models.
+        The diagram below depicts the concrete implementation architecture of the application, representing the physical package hierarchy, inter-layer communication bus, monitor concurrency model, and collections storage.
     </p>
 
-    <div class="arch-diagram">
-+-----------------------------------------------------------------------------------+
-|                        PRESENTATION TIER (JAVA SWING GUI)                         |
-|   MainFrame (CardLayout Coordinator)  |  DashboardPanel  |  PatientPanel          |
-|   DoctorPanel  |  AppointmentPanel    |  QueuePanel      |  ConsultationPanel     |
-+-----------------------------------------------------------------------------------+
-                                          |
-+-----------------------------------------------------------------------------------+
-|                         APPLICATION SERVICE CONTROLLER                            |
-|                  HospitalManager (Thread-Safe Singleton Service)                  |
-|    - Maps: LinkedHashMap&lt;String, Patient&gt;, Doctor, Appointment                   |
-|    - History: ArrayList&lt;ConsultationRecord&gt;  |  Observers: List&lt;QueueObserver&gt;    |
-+-----------------------------------------------------------------------------------+
-                   |                                                 |
-+---------------------------------------+         +---------------------------------+
-|         CONCURRENCY TIER              |         |          DOMAIN MODELS          |
-|      HospitalQueueEngine              |         |  - Person (Abstract Superclass) |
-|  - Producer: produceToken()           |         |  - Patient, Doctor (Subclasses) |
-|  - Consumer: consumeToken()           |         |  - Appointment, QueueToken      |
-|  - Dual LinkedList Queues             |         |  - ConsultationRecord           |
-|  - Monitor: synchronized/wait/notify  |         |  - Custom Checked Exceptions    |
-+---------------------------------------+         +---------------------------------+
+    <div class="arch-container">
+        <!-- LAYER 1: PRESENTATION -->
+        <div class="arch-layer">
+            <div class="arch-layer-header">
+                <span>1. PRESENTATION LAYER (Package: hospital.ui & hospital.ui.panels)</span>
+                <span class="arch-layer-tag">Java Swing & EDT</span>
+            </div>
+            <div class="arch-boxes-row">
+                <div class="arch-box">
+                    <strong>MainFrame.java</strong>
+                    <span>CardLayout manager, sidebar navigation, implements QueueObserver</span>
+                </div>
+                <div class="arch-box">
+                    <strong>DashboardPanel.java</strong>
+                    <span>Live KPI StatCards, queue alert banner, recent bookings table</span>
+                </div>
+                <div class="arch-box">
+                    <strong>PatientPanel.java</strong>
+                    <span>Intake form, real-time search filtering, direct queue dispatch</span>
+                </div>
+                <div class="arch-box">
+                    <strong>DoctorPanel.java</strong>
+                    <span>Specialist roster, consultation chambers, qualification index</span>
+                </div>
+                <div class="arch-box">
+                    <strong>AppointmentPanel.java</strong>
+                    <span>Slot scheduling, duplicate check dialog, queue dispatcher</span>
+                </div>
+                <div class="arch-box">
+                    <strong>QueuePanel.java</strong>
+                    <span>Dual priority tables (Emergency/Regular), walk-in producer</span>
+                </div>
+                <div class="arch-box">
+                    <strong>ConsultationPanel.java</strong>
+                    <span>Active patient desk, background thread simulator, prescription</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="arch-connector">&darr; Event Triggers, Method Invocations &amp; Observer Callbacks &uarr;</div>
+
+        <!-- LAYER 2: CONTROLLER & SERVICE LAYER -->
+        <div class="arch-layer">
+            <div class="arch-layer-header">
+                <span>2. APPLICATION SERVICE CONTROLLER (Package: hospital.service)</span>
+                <span class="arch-layer-tag">Singleton Pattern</span>
+            </div>
+            <div class="arch-boxes-row">
+                <div class="arch-box" style="grid-column: span 2;">
+                    <strong>HospitalManager.java (Thread-Safe Central Controller)</strong>
+                    <span>Synchronized orchestrator, validates input, prevents duplicate appointments, generates sequential IDs (PAT-, DOC-, APT-, TKN-, CNS-)</span>
+                </div>
+                <div class="arch-box">
+                    <strong>Collections Mapping</strong>
+                    <span>LinkedHashMap&lt;String, Patient&gt;<br>LinkedHashMap&lt;String, Doctor&gt;<br>LinkedHashMap&lt;String, Appointment&gt;</span>
+                </div>
+                <div class="arch-box">
+                    <strong>Event Bus</strong>
+                    <span>List&lt;Runnable&gt; changeListeners<br>List&lt;ConsultationRecord&gt; history</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="arch-connector">&darr; Synchronized Token Production, Consumption &amp; Notification &uarr;</div>
+
+        <!-- LAYER 3: MULTI-THREADED MONITOR CONCURRENCY -->
+        <div class="arch-layer">
+            <div class="arch-layer-header">
+                <span>3. CONCURRENT QUEUE MONITOR (Package: hospital.queue)</span>
+                <span class="arch-layer-tag">Producer–Consumer Pattern</span>
+            </div>
+            <div class="arch-boxes-row">
+                <div class="arch-box">
+                    <strong>HospitalQueueEngine.java</strong>
+                    <span>Shared Bounded Buffer (Cap: 100)<br>wait() &amp; notifyAll() synchronization</span>
+                </div>
+                <div class="arch-box">
+                    <strong>Producer Operations</strong>
+                    <span>produceToken(QueueToken t)<br>Waits when buffer full; alerts consumers</span>
+                </div>
+                <div class="arch-box">
+                    <strong>Dual Priority Storage</strong>
+                    <span>emergencyQueue: LinkedList&lt;QueueToken&gt;<br>regularQueue: LinkedList&lt;QueueToken&gt;</span>
+                </div>
+                <div class="arch-box">
+                    <strong>Consumer Operations</strong>
+                    <span>consumeToken() / pollNextImmediate()<br>Strictly polls Emergency queue first!</span>
+                </div>
+                <div class="arch-box">
+                    <strong>Background Worker Thread</strong>
+                    <span>Daemon thread consumer simulation,<br>dispatches to EDT via invokeLater()</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="arch-connector">&darr; Data Modeling &amp; Exception Propagation &uarr;</div>
+
+        <!-- LAYER 4: DOMAIN MODELS & CUSTOM EXCEPTIONS -->
+        <div class="arch-layer">
+            <div class="arch-layer-header">
+                <span>4. DOMAIN ENTITIES &amp; CHECKED EXCEPTIONS (Packages: hospital.model &amp; hospital.exceptions)</span>
+                <span class="arch-layer-tag">OOP &amp; Integrity</span>
+            </div>
+            <div class="arch-boxes-row">
+                <div class="arch-box">
+                    <strong>Person.java (Abstract)</strong>
+                    <span>Base entity: ID, name, age, phone; Searchable, Serializable</span>
+                </div>
+                <div class="arch-box">
+                    <strong>Patient.java &amp; Doctor.java</strong>
+                    <span>Inherits Person; clinical history, blood group, specialty, chambers</span>
+                </div>
+                <div class="arch-box">
+                    <strong>QueueToken.java</strong>
+                    <span>Implements Queueable, Comparable; Emergency Priority sorting</span>
+                </div>
+                <div class="arch-box">
+                    <strong>Appointment.java</strong>
+                    <span>Tracks doctor, patient, date, slot, PatientType, AppointmentStatus</span>
+                </div>
+                <div class="arch-box">
+                    <strong>Custom Exceptions</strong>
+                    <span>DuplicateBookingException<br>InvalidInputException<br>QueueEmptyException</span>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <h2 class="sub-title">2.1 Object-Oriented Programming (OOP) Paradigm Mapping</h2>
     <table class="content-table">
         <thead>
             <tr>
-                <th style="width: 22%;">OOP Principle</th>
-                <th style="width: 45%;">Implementation Details in Application</th>
-                <th style="width: 33%;">Key Classes</th>
+                <th style="width: 25%;">Component Layer</th>
+                <th style="width: 40%;">Implemented Role in System Architecture</th>
+                <th style="width: 35%;">Java Concurrency / Collection Tech</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td><strong>Abstraction</strong></td>
-                <td>Abstract base class encapsulating universal demographic fields (ID, name, age, phone) with abstract role method <code>getRoleTitle()</code>.</td>
-                <td><code>Person.java</code> (Abstract Superclass)</td>
+                <td><strong>Presentation (UI)</strong></td>
+                <td>6 modular panels coordinated via <code>CardLayout</code> in <code>MainFrame</code></td>
+                <td>Java Swing, Event Dispatch Thread (EDT)</td>
             </tr>
             <tr>
-                <td><strong>Inheritance</strong></td>
-                <td>Specialized subclasses extending <code>Person</code>, adding clinical history, blood group, emergency contacts, qualifications, and specialties.</td>
-                <td><code>Patient.java</code>, <code>Doctor.java</code></td>
+                <td><strong>Service Controller</strong></td>
+                <td>Singleton mediator orchestrating data access and conflict validation</td>
+                <td><code>LinkedHashMap</code>, <code>AtomicInteger</code>, <code>synchronized</code></td>
             </tr>
             <tr>
-                <td><strong>Polymorphism</strong></td>
-                <td>Overridden <code>matches()</code> query searching; priority comparator in tokens; interface-driven observer notifications.</td>
-                <td><code>Queueable.java</code>, <code>Searchable.java</code></td>
+                <td><strong>Concurrency Engine</strong></td>
+                <td>Bounded monitor buffer coordinating producers and consumers</td>
+                <td><code>wait()</code>, <code>notifyAll()</code>, <code>LinkedList</code>, <code>Thread</code></td>
             </tr>
             <tr>
-                <td><strong>Encapsulation</strong></td>
-                <td>All state variables marked <code>private</code>/<code>protected</code> with validated getter and setter access routines.</td>
-                <td>All Domain Models</td>
-            </tr>
-            <tr>
-                <td><strong>Collections Framework</strong></td>
-                <td><code>LinkedHashMap</code> for $O(1)$ fast lookups; <code>LinkedList</code> for dual FIFO priority queues; <code>ArrayList</code> for records.</td>
-                <td><code>HospitalManager.java</code></td>
+                <td><strong>Domain &amp; Integrity</strong></td>
+                <td>OOP entities, priority comparator, and checked exceptions</td>
+                <td><code>Comparable&lt;QueueToken&gt;</code>, Custom <code>Exception</code>s</td>
             </tr>
         </tbody>
     </table>
